@@ -23,7 +23,8 @@
 
 @code
 {
-    private readonly string _userName = "";
+    // ReSharper disable once FieldCanBeMadeReadOnly.Local
+    private string _userName = "";
 
     private async void CallWeather() { Console.WriteLine(await Http.GetAsync("https://localhost:5003/api/weatherforecast")); }
 
