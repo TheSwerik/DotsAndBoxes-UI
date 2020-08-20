@@ -1,0 +1,14 @@
+﻿@page "/lobby/{lobbyID:int}"
+@inject NavigationManager NavigationManager
+
+<h3>Lobby #@LobbyId</h3>
+
+<button class="btn btn-primary" @onclick="StartGame">Play</button>
+
+@code {
+
+    [Parameter]
+    public int LobbyId { get; set; }
+
+    private void StartGame() { NavigationManager.NavigateTo($"/game/{LobbyId}"); }
+}

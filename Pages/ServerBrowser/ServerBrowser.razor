@@ -1,0 +1,16 @@
+﻿@page "/serverBrowser"
+
+<h1>Server</h1>
+
+<ul>
+    @for (var x = 1; x < 6; x++)
+    {
+        <li>
+            <a href="/lobby/@x">Server @x</a>
+        </li>
+    }
+</ul>
+
+@code {
+
+}
