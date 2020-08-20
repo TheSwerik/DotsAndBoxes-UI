@@ -1,7 +1,4 @@
 ﻿@page "/game/{gameId:int}"
-@using JsConsole
-@inject IJSRuntime Logger
-
 
 <h3>Game #@GameId</h3>
 
@@ -10,10 +7,6 @@
     [Parameter]
     public int GameId { get; set; }
 
-    protected override void OnInitialized()
-    {
-    // Console.WriteLine($"Server: {GameId}");
-        JsConsole.Log(Logger, $"Browser: {GameId}");
-    }
+    protected override void OnInitialized() { Console.WriteLine($"Browser: {GameId}"); }
 
 }
