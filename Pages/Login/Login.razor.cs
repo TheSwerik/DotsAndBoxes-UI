@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Net.Http;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using UI.Entities;
+using UI.Services;
 
 namespace UI.Pages.Login
 {
@@ -8,10 +12,7 @@ namespace UI.Pages.Login
         // ReSharper disable once FieldCanBeMadeReadOnly.Local
         private string _userName = "";
 
-        private async void CallWeather()
-        {
-            Console.WriteLine(await Http.GetAsync("https://localhost:5003/api/weatherforecast"));
-        }
+        [Inject] private UserService UserService { get; set; }
 
         private void CheckEnter(KeyboardEventArgs e)
         {
@@ -20,8 +21,9 @@ namespace UI.Pages.Login
 
         private void OpenServerBrowser()
         {
+            UserService.CreateUser(_userName).ConfigureAwait(false);
+            UserService.GetAllUsers().ConfigureAwait(false);
             NavigationManager.NavigateTo("/serverBrowser");
-            Console.WriteLine(_userName);
         }
     }
 }
