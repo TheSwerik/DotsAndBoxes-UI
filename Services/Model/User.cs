@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UI.Entities
+namespace UI.Services.Model
 {
     [Serializable]
     public struct User

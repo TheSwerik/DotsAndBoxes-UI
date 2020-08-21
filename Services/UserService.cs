@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using UI.Entities;
+using UI.Services.Model;
 
 namespace UI.Services
 {
