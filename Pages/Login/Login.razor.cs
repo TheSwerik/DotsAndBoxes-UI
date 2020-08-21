@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Net.Http;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using UI.Entities;
 using UI.Services;
 
 namespace UI.Pages.Login
@@ -21,9 +19,14 @@ namespace UI.Pages.Login
 
         private void OpenServerBrowser()
         {
-            UserService.CreateUser(_userName).ConfigureAwait(false);
-            UserService.GetAllUsers().ConfigureAwait(false);
+            TestUser();
             NavigationManager.NavigateTo("/serverBrowser");
+        }
+
+        private async void TestUser()
+        {
+            Console.WriteLine("CREATED: " + await UserService.CreateUser(_userName));
+            Console.WriteLine("GOT: " + string.Join("\n", await UserService.GetAllUsers()));
         }
     }
 }

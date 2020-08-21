@@ -2,6 +2,7 @@
 
 namespace UI.Entities
 {
+    [Serializable]
     public struct User
     {
         public Guid Id;
