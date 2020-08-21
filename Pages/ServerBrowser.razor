@@ -1,5 +1,4 @@
 ﻿@page "/serverBrowser"
-@using UI.Services
 @inject UserService UserService
 
 <h1>Server</h1>
@@ -13,8 +12,3 @@
     }
 </ul>
 <button class="btn btn-primary w-100 my-auto" @onclick="Refresh">Play</button>
-
-@code {
-
-    private void Refresh() { Console.WriteLine(UserService.CurrentUser); }
-}
