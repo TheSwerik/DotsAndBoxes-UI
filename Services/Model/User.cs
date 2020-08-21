@@ -1,8 +1,10 @@
-﻿using System;
+﻿// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+
+using System;
 
 namespace UI.Services.Model
 {
-    [Serializable]
     public struct User
     {
         public Guid Id { get; set; }
