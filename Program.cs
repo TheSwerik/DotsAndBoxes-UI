@@ -15,19 +15,11 @@ namespace UI
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
 
-            builder.Services.AddSingleton(
-                sp => new HttpClient {BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)});
-            
             builder.Services.AddSingleton<UserService>();
-                    // app.MapWhen(
-                    //     context => context.Request.Path.StartsWithSegments("/api"),
-                    //     builder => builder.RunProxy(new ProxyOptions
-                    //                                 {
-                    //                                     Scheme = "https",
-                    //                                     Host = "example.com",
-                    //                                     Port = "80",
-                    //                                 })
-                    // );
+            builder.Services.AddSingleton(
+                sp => new HttpClient {BaseAddress = new Uri("https://localhost:5003/api/")});
+            // I wrote the API URL here instead of "BaseAddress" because then every Http-Call goes to the API
+            // sp => new HttpClient {BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)});
 
             await builder.Build().RunAsync();
         }

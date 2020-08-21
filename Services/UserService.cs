@@ -14,16 +14,16 @@ namespace UI.Services
         public User CurrentUser;
         public UserService(HttpClient http) { Http = http; }
         [Inject] private HttpClient Http { get; set; }
-        private const string Url = "https://localhost:5003/api/";
+        private const string Url = "user";
 
         public async Task<User> CreateUser(string username)
         {
-            var response = await Http.PostAsync(Url + "user", new StringContent("abc"));
+            var response = await Http.PostAsync(Url, new StringContent("abc"));
             return CurrentUser;
         }
         public async Task<IEnumerable<User>> GetAllUsers()
         {
-            var response = await Http.GetAsync(Url + "user");
+            var response = await Http.GetAsync( Url);
             response.EnsureSuccessStatusCode();
             Console.WriteLine(await response.Content.ReadAsStringAsync());
             return null;
