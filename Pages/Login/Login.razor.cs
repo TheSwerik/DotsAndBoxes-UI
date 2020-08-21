@@ -17,16 +17,11 @@ namespace UI.Pages.Login
             if (e.Key.Equals("Enter")) OpenServerBrowser();
         }
 
-        private void OpenServerBrowser()
-        {
-            TestUser();
-            NavigationManager.NavigateTo("/serverBrowser");
-        }
-
-        private async void TestUser()
+        private async void OpenServerBrowser()
         {
             Console.WriteLine("CREATED: " + await UserService.CreateUser(_userName));
-            Console.WriteLine("GOT: " + string.Join("\n", await UserService.GetAllUsers()));
+            Console.WriteLine("GOT: " + string.Join("\t", await UserService.GetAllUsers()));
+            NavigationManager.NavigateTo("/serverBrowser");
         }
     }
 }
