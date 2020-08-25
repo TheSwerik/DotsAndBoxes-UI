@@ -1,4 +1,5 @@
 ﻿@page "/serverBrowser"
+@inject UserService UserService
 
 <h1>Server</h1>
 
@@ -10,7 +11,4 @@
         </li>
     }
 </ul>
-
-@code {
-
-}
+<button class="btn btn-primary w-100 my-auto" @onclick="Refresh">Play</button>
