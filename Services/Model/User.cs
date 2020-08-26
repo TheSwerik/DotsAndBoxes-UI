@@ -5,7 +5,7 @@ using System;
 
 namespace UI.Services.Model
 {
-    public struct User
+    public class User
     {
         public Guid Id { get; }
         public string Username { get; set; }

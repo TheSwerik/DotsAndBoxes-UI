@@ -1,34 +1,23 @@
 ﻿using System;
 using Microsoft.AspNetCore.Components;
 using UI.Services;
+using UI.Util;
 
 namespace UI.Shared
 {
     public partial class Navbar
     {
-        private Guid _user = new Guid();
-        [Inject] private NavigationManager MyNavigationManager { get; set; }
+        private const string RegisterUri = "/register";
+        private const string LoginUri = "/login";
+        [Inject] private NavigationManager NavigationManager { get; set; }
         [Inject] private UserService UserService { get; set; }
 
-        protected override void OnInitialized()
-        {
-            base.OnInitialized();
-            Console.WriteLine(MyNavigationManager.Uri);
-        }
+        private bool IsHighscore() { return Comparer.EqualsUri(NavigationManager, "highscore"); }
 
-        private bool isHighscore()
-        {
-            return MyNavigationManager.Uri.Equals("highscore", StringComparison.InvariantCultureIgnoreCase);
-        }
+        private bool IsLobby() { return Comparer.ContainsUri(NavigationManager, "lobby"); }
 
-        private bool isLobby()
-        {
-            return MyNavigationManager.Uri.Contains("lobby", StringComparison.InvariantCultureIgnoreCase);
-        }
+        private bool IsLogin() { return Comparer.EqualsUri(NavigationManager, "login", ""); }
 
-        private bool isLogin()
-        {
-            return MyNavigationManager.Uri.Equals("login", StringComparison.InvariantCultureIgnoreCase);
-        }
+        private void NavigateTo(string uri) { NavigationManager.NavigateTo(uri, true); }
     }
 }

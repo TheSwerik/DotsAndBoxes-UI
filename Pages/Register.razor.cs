@@ -3,7 +3,6 @@
 // ReSharper disable UnusedAutoPropertyAccessor.Local
 
 using System;
-using System.Net.Http;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using UI.Services;
@@ -11,19 +10,11 @@ using UI.Services.Model;
 
 namespace UI.Pages
 {
-    public partial class Login
+    public partial class Register
     {
         private string _password = "";
         private string _userName = "";
         [Inject] private UserService UserService { get; set; }
-        [Inject] private HttpClient Http { get; set; }
-        [Inject] private NavigationManager NavigationManager { get; set; }
-
-        protected override void OnInitialized()
-        {
-            base.OnInitialized();
-            Console.WriteLine($"URI: {NavigationManager.Uri}");
-        }
 
         private void CheckEnter(KeyboardEventArgs e)
         {
@@ -32,9 +23,8 @@ namespace UI.Pages
 
         private async void OpenServerBrowser()
         {
-            var loggedInAs = await UserService.Login(_userName, SecurityService.HashPassword(_password));
-            if (loggedInAs == null) return;
-            Console.WriteLine($"Logged in: {loggedInAs}");
+            var newUser = new User(_userName, SecurityService.HashPassword(_password));
+            Console.WriteLine("CREATED: " + await UserService.CreateUser(newUser));
             NavigationManager.NavigateTo("/serverBrowser");
         }
     }
