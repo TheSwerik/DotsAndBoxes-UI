@@ -1,12 +1,14 @@
 ﻿using System;
 using Microsoft.AspNetCore.Components;
+using UI.Services;
 
 namespace UI.Shared
 {
     public partial class Navbar
     {
-        private string _user = "swerik";
-        [Inject] public NavigationManager MyNavigationManager { get; set; }
+        private Guid _user = new Guid();
+        [Inject] private NavigationManager MyNavigationManager { get; set; }
+        [Inject] private UserService UserService { get; set; }
 
         protected override void OnInitialized()
         {

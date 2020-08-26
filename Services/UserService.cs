@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -25,6 +26,13 @@ namespace UI.Services
             return await (await _http.GetAsync(Url))
                          .Content
                          .ReadFromJsonAsync<IEnumerable<User>>();
+        }
+
+        public async Task<User> GetUser(Guid userId)
+        {
+            return await (await _http.GetAsync(Url + $"/{userId}"))
+                         .Content
+                         .ReadFromJsonAsync<User>();
         }
     }
 }

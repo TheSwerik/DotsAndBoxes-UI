@@ -9,10 +9,16 @@
                 <a class="nav-link" href="highscore">Highscore</a>
             </li>
             <li class="nav-item @(isLobby() ? "active" : "")">
-                <a class="nav-link" href="lobbybrowser">Lobbybrowser</a>
+                @if (UserService.CurrentUser.Id != Guid.Empty)
+                {
+                    <a class="nav-link" href="lobbybrowser">Lobbybrowser</a>
+                }
             </li>
             <li class="nav-item @(false ? "active" : "")">
-                <a class="nav-link" href="u/@_user">@_user</a>
+                @if (UserService.CurrentUser.Id != Guid.Empty)
+                {
+                    <a class="nav-link" href="u/@UserService.CurrentUser.Id">@UserService.CurrentUser.Username</a>
+                }
             </li>
             <li class="nav-item @(isLogin() ? "active" : "")">
                 <a class="nav-link" href="/login">Login</a>
