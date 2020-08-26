@@ -2,7 +2,7 @@
 
 namespace UI.Pages
 {
-    public partial class ServerBrowser
+    public partial class LobbyBrowser
     {
         private void Refresh() { Console.WriteLine(UserService.CurrentUser); }
     }
