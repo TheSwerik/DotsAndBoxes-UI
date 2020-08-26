@@ -15,6 +15,14 @@
                         <input class="form-control w-100" @bind="_userName" @onkeyup="CheckEnter"/>
                     </td>
                 </tr>
+                <tr>
+                    <td style="font-size: 2vh; width: 6vw">
+                        Password:
+                    </td>
+                    <td style="font-size: 2vh; width: 16.2vw">
+                        <input type="password" class="form-control w-100" @bind="_password" @onkeyup="CheckEnter"/>
+                    </td>
+                </tr>
             </table>
             <button class="btn btn-primary w-100 my-auto" @onclick="OpenServerBrowser">Play</button>
         </div>

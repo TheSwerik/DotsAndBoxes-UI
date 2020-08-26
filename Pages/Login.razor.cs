@@ -6,11 +6,13 @@ using System;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using UI.Services;
+using UI.Services.Model;
 
 namespace UI.Pages
 {
     public partial class Login
     {
+        private string _password = "";
         private string _userName = "";
         [Inject] private UserService UserService { get; set; }
 
@@ -21,7 +23,9 @@ namespace UI.Pages
 
         private async void OpenServerBrowser()
         {
-            Console.WriteLine("CREATED: " + await UserService.CreateUser(_userName));
+            var newUser = new User(_userName, SecurityService.HashPassword(_password));
+
+            Console.WriteLine("CREATED: " + await UserService.CreateUser(newUser));
             Console.WriteLine("GOT: " + string.Join("\t", await UserService.GetAllUsers()));
             NavigationManager.NavigateTo("/serverBrowser");
         }

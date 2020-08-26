@@ -14,9 +14,9 @@ namespace UI.Services
         public User CurrentUser;
         public UserService(HttpClient http) { _http = http; }
 
-        public async Task<User> CreateUser(string username)
+        public async Task<User> CreateUser(User user)
         {
-            return CurrentUser = await (await _http.PostAsync(Url, JsonContent.Create(username)))
+            return CurrentUser = await (await _http.PostAsync(Url, JsonContent.Create(user)))
                                        .Content
                                        .ReadFromJsonAsync<User>();
         }
