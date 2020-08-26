@@ -29,13 +29,13 @@
                 @if (IsLogin())
                 {
                     <li class="nav-item">
-                        <a class="nav-link" @onclick="() => NavigateTo(RegisterUri)">Register</a>
+                        <a class="nav-link" @onclick="() => NavigateTo(RegisterUri)" href="register">Register</a>
                     </li>
                 }
                 else
                 {
                     <li class="nav-item">
-                        <a class="nav-link" @onclick="() => NavigateTo(LoginUri)">Login</a>
+                        <a class="nav-link" @onclick="() => NavigateTo(LoginUri)" href="login">Login</a>
                     </li>
                 }
             }

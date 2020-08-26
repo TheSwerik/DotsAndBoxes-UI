@@ -11,9 +11,10 @@ namespace UI.Services.Model
         public string Username { get; set; }
         public string PasswordHash { get; set; }
 
-        public User(string username, string passwordHash)
+        public User() { Id = Guid.Empty; }
+
+        public User(string username, string passwordHash) : base()
         {
-            Id = Guid.Empty;
             Username = username;
             PasswordHash = passwordHash;
         }

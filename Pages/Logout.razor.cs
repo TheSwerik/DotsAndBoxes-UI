@@ -16,9 +16,8 @@ namespace UI.Pages
         [Inject] private UserService UserService { get; set; }
         [Inject] private NavigationManager NavigationManager { get; set; }
 
-        protected override Task OnInitializedAsync()
+        protected override void OnInitialized()
         {
-            return base.OnInitializedAsync();
             UserService.CurrentUser = null;
             NavigationManager.NavigateTo("/login");
         }
