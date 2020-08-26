@@ -17,7 +17,7 @@
             <li class="nav-item @(false ? "active" : "")">
                 @if (UserService.CurrentUser.Id != Guid.Empty)
                 {
-                    <a class="nav-link" href="u/@UserService.CurrentUser.Id">@UserService.CurrentUser.Username</a>
+                    <a class="nav-link" href="user/@UserService.CurrentUser.Id">@UserService.CurrentUser.Username</a>
                 }
             </li>
             <li class="nav-item @(isLogin() ? "active" : "")">
