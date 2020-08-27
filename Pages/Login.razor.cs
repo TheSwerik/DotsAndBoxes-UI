@@ -32,9 +32,25 @@ namespace UI.Pages
 
         private async void OpenServerBrowser()
         {
-            var loggedInAs = await UserService.Login(_userName, SecurityService.HashPassword(_password));
-            if (loggedInAs == null) return;
-            Console.WriteLine($"Logged in: {loggedInAs}");
+            var loggedInAs = await UserService.GetUser(_userName);
+            if (loggedInAs == null)
+            {
+                Console.WriteLine("The User does not exist.");
+                return;
+            }
+
+            Console.WriteLine("The User does exist: " + loggedInAs);
+
+            var user = new AuthenticateModel {Username = _userName, Password = _password};
+            // {Username = _userName, Password = SecurityService.HashPassword(_password, loggedInAs.GetSalt())};
+            // Console.WriteLine(await UserService.Authenticate(user));
+            // if (loggedInAs == null)
+            // {
+            //     Console.WriteLine("Wrong Password!");
+            //     return;
+            // }
+
+            // Console.WriteLine($"Logged in: {loggedInAs}");
             NavigationManager.NavigateTo("/serverBrowser");
         }
     }

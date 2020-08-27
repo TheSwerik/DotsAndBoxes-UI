@@ -1,26 +1,23 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 
-using System;
-
 namespace UI.Services.Model
 {
     public class User
     {
-        public Guid Id { get; }
-        public string Username { get; set; }
-        public string PasswordHash { get; set; }
+        public User() { }
 
-        public User() { Id = Guid.Empty; }
-
-        public User(string username, string passwordHash) : base()
+        public User(string username, string passwordHash)
         {
             Username = username;
             PasswordHash = passwordHash;
         }
 
-        public string Salt() { return PasswordHash.Substring(0, 27); }
+        public string Username { get; set; }
+        public string PasswordHash { get; set; }
 
-        public override string ToString() { return $"{{ ID: {Id} | Username: {Username} }}"; }
+        public string GetSalt() { return PasswordHash.Substring(0, 27) + '='; }
+
+        public override string ToString() { return $"{{ Username: {Username} }}"; }
     }
 }

@@ -32,16 +32,14 @@ namespace UI.Services
         /// <param name="password"></param>
         /// <param name="salt"></param>
         /// <returns>The Hashed Password</returns>
-        public static string HashPasswordWithGivenSalt(string password)
+        public static string HashPassword(string password, string salt)
         {
-            Console.WriteLine($"The Plain-Text Password: {password}");
+            var saltBytes = Convert.FromBase64String(salt);
 
-            //TODO split Password and salt
-            var saltBytes = Convert.FromBase64String(password.Substring(0,27));
-
-            var pbkdf2 = new Rfc2898DeriveBytes(password, saltBytes, 10000);
+            var pbkdf2 = new Rfc2898DeriveBytes(password, saltBytes, 1000);
             var hash = pbkdf2.GetBytes(20);
             Console.WriteLine($"The Hash: {Convert.ToBase64String(hash)}");
+
 
             var hashBytes = new byte[40];
             Array.Copy(saltBytes, 0, hashBytes, 0, 20);
@@ -49,11 +47,6 @@ namespace UI.Services
             Console.WriteLine($"The Salted and Hashed Password: {Convert.ToBase64String(hashBytes)}");
 
             return Convert.ToBase64String(hashBytes);
-        }
-
-        public static string ConvertPasswordToSalt(string password)
-        {
-            return password.Substring(0, 26) + '=';
         }
     }
 }

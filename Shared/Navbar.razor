@@ -17,7 +17,7 @@
             <li class="nav-item @(false ? "active" : "")">
                 @if (UserService.CurrentUser != null)
                 {
-                    <a class="nav-link" href="user/@UserService.CurrentUser.Id">@UserService.CurrentUser.Username</a>
+                    <a class="nav-link" href="user/@UserService.CurrentUser.Username">@UserService.CurrentUser.Username</a>
                 }
             </li>
             @if (UserService.CurrentUser != null)
