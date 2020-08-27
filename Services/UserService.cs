@@ -47,10 +47,7 @@ namespace UI.Services
         public async Task<User> GetUser(string username)
         {
             var response = await _http.GetAsync(Url + $"/{username}");
-
-            if (response.IsSuccessStatusCode)
-                Console.WriteLine("Content: " + await response.Content.ReadAsStringAsync());
-            // if (response.IsSuccessStatusCode) return CurrentUser = await response.Content.ReadFromJsonAsync<User>();
+            if (response.IsSuccessStatusCode) return CurrentUser = await response.Content.ReadFromJsonAsync<User>();
 
             Console.WriteLine($"USER WITH USERNAME {username} NOT FOUND!");
             return null;

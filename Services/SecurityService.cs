@@ -35,6 +35,7 @@ namespace UI.Services
         public static string HashPassword(string password, string salt)
         {
             var saltBytes = Convert.FromBase64String(salt);
+            Console.WriteLine($"The Salt: {Convert.ToBase64String(saltBytes)}");
 
             var pbkdf2 = new Rfc2898DeriveBytes(password, saltBytes, 1000);
             var hash = pbkdf2.GetBytes(20);

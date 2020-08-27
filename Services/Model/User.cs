@@ -7,16 +7,16 @@ namespace UI.Services.Model
     {
         public User() { }
 
-        public User(string username, string passwordHash)
+        public User(string username, string password)
         {
             Username = username;
-            PasswordHash = passwordHash;
+            Password = password;
         }
 
         public string Username { get; set; }
-        public string PasswordHash { get; set; }
+        public string Password { get; set; }
 
-        public string GetSalt() { return PasswordHash.Substring(0, 27) + '='; }
+        public string GetSalt() { return Password.Substring(0, 27) + '='; }
 
         public override string ToString() { return $"{{ Username: {Username} }}"; }
     }

@@ -19,12 +19,6 @@ namespace UI.Pages
         [Inject] private HttpClient Http { get; set; }
         [Inject] private NavigationManager NavigationManager { get; set; }
 
-        protected override void OnInitialized()
-        {
-            base.OnInitialized();
-            Console.WriteLine($"URI: {NavigationManager.Uri}");
-        }
-
         private void CheckEnter(KeyboardEventArgs e)
         {
             if (e.Key.Equals("Enter")) OpenServerBrowser();
@@ -39,16 +33,17 @@ namespace UI.Pages
                 return;
             }
 
-            Console.WriteLine("The User does exist: " + loggedInAs);
-
-            var user = new AuthenticateModel {Username = _userName, Password = _password};
-            // {Username = _userName, Password = SecurityService.HashPassword(_password, loggedInAs.GetSalt())};
-            // Console.WriteLine(await UserService.Authenticate(user));
-            // if (loggedInAs == null)
-            // {
-            //     Console.WriteLine("Wrong Password!");
-            //     return;
-            // }
+            var user = new AuthenticateModel
+                       {
+                           Username = _userName,
+                           Password = SecurityService.HashPassword(_password, loggedInAs.GetSalt())
+                       };
+            Console.WriteLine(await UserService.Authenticate(user));
+            if (loggedInAs == null)
+            {
+                Console.WriteLine("Wrong Password!");
+                return;
+            }
 
             // Console.WriteLine($"Logged in: {loggedInAs}");
             NavigationManager.NavigateTo("/serverBrowser");
