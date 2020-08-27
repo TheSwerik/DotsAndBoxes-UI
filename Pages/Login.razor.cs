@@ -13,8 +13,8 @@ namespace UI.Pages
 {
     public partial class Login
     {
-        private string _password = "";
-        private string _userName = "";
+        private AuthenticateModel _authenticateModel = new AuthenticateModel();
+
         [Inject] private UserService UserService { get; set; }
         [Inject] private HttpClient Http { get; set; }
         [Inject] private NavigationManager NavigationManager { get; set; }
@@ -26,18 +26,7 @@ namespace UI.Pages
 
         private async void OpenServerBrowser()
         {
-            var loggedInAs = await UserService.GetUser(_userName);
-            if (loggedInAs == null) return;
-
-            Console.WriteLine($"The regular password: {loggedInAs.Password}");
-
-            var user = new AuthenticateModel
-                       {
-                           Username = _userName,
-                           Password = SecurityService.HashPassword(_password, loggedInAs.GetSalt())
-                       };
-            Console.WriteLine(await UserService.Authenticate(user));
-
+            Console.WriteLine($"Logged in as: {await UserService.Authenticate(_authenticateModel)}");
             NavigationManager.NavigateTo("/serverBrowser");
         }
     }
