@@ -1,10 +1,8 @@
 ﻿// ReSharper disable FieldCanBeMadeReadOnly.Local
-// ReSharper disable ConvertToConstant.Local
 // ReSharper disable UnusedAutoPropertyAccessor.Local
 
 using System;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using UI.Services;
 using UI.Services.Model;
 
@@ -12,19 +10,15 @@ namespace UI.Pages
 {
     public partial class Register
     {
-        private string _password = "";
-        private string _userName = "";
+        private AuthenticateModel _authenticateModel = new AuthenticateModel();
         [Inject] private UserService UserService { get; set; }
-
-        private void CheckEnter(KeyboardEventArgs e)
-        {
-            if (e.Key.Equals("Enter")) OpenServerBrowser();
-        }
+        [Inject] private NavigationManager NavigationManager { get; set; }
 
         private async void OpenServerBrowser()
         {
-            var newUser = new User(_userName, SecurityService.HashPassword(_password));
-            Console.WriteLine("CREATED: " + await UserService.CreateUser(newUser));
+            var loggedInAs = await UserService.Register(_authenticateModel);
+            if (loggedInAs == null) return;
+            Console.WriteLine($"Logged in as: {loggedInAs}");
             NavigationManager.NavigateTo("/serverBrowser");
         }
     }

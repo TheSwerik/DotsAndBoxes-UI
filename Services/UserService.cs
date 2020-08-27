@@ -11,31 +11,17 @@ namespace UI.Services
 {
     public class UserService
     {
+        #region Attributes
+
         private const string Url = "user";
         private const string AuthenticateUrl = "user/authenticate";
         private readonly HttpClient _http;
         public User CurrentUser;
         public UserService(HttpClient http) { _http = http; }
 
-        public async Task<User> CreateUser(User user)
-        {
-            return CurrentUser = await (await _http.PostAsync(Url, JsonContent.Create(user)))
-                                       .Content
-                                       .ReadFromJsonAsync<User>();
-        }
+        #endregion
 
-        public async Task<User> Authenticate(AuthenticateModel user)
-        {
-            var encoded = Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1")
-                                                         .GetBytes(user.Username + ":" + user.Password));
-            _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", encoded);
-            // var response = await _http.GetAsync(AuthenticateUrl);
-            var response = await _http.PostAsync(AuthenticateUrl, JsonContent.Create(user));
-            if (response.IsSuccessStatusCode) return CurrentUser = await response.Content.ReadFromJsonAsync<User>();
-
-            Console.WriteLine("WRONG USERNAME OR PASSWORD");
-            return null;
-        }
+        #region Methods
 
         public async Task<IEnumerable<User>> GetAllUsers()
         {
@@ -52,5 +38,39 @@ namespace UI.Services
             Console.WriteLine($"USER WITH USERNAME {username} NOT FOUND!");
             return null;
         }
+
+        #region Authentification
+
+        public async Task<User> Authenticate(AuthenticateModel user)
+        {
+            SetAuthorizationHeader(user);
+            var response = await _http.PostAsync(AuthenticateUrl, JsonContent.Create(user));
+            if (response.IsSuccessStatusCode) return CurrentUser = await response.Content.ReadFromJsonAsync<User>();
+
+            Console.WriteLine("WRONG USERNAME OR PASSWORD");
+            return null;
+        }
+
+        public async Task<User> Register(AuthenticateModel user)
+        {
+            SetAuthorizationHeader(user);
+            var response = await _http.PostAsync(Url, JsonContent.Create(user));
+            if (response.IsSuccessStatusCode) return CurrentUser = await response.Content.ReadFromJsonAsync<User>();
+
+            Console.WriteLine(await response.Content.ReadFromJsonAsync<ResponseMessage>());
+            return null;
+        }
+
+        private void SetAuthorizationHeader(AuthenticateModel user)
+        {
+            var encoded = Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1")
+                                                         .GetBytes(user.Username + ":" + user.Password));
+            _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", encoded);
+            //TODO save cookie
+        }
+
+        #endregion
+
+        #endregion
     }
 }

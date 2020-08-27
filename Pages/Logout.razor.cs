@@ -2,12 +2,8 @@
 // ReSharper disable ConvertToConstant.Local
 // ReSharper disable UnusedAutoPropertyAccessor.Local
 
-using System;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using UI.Services;
-using UI.Services.Model;
 
 namespace UI.Pages
 {
@@ -18,6 +14,7 @@ namespace UI.Pages
 
         protected override void OnInitialized()
         {
+            //TODO delete cookie
             UserService.CurrentUser = null;
             NavigationManager.NavigateTo("/login");
         }
