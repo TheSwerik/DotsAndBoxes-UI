@@ -14,7 +14,8 @@ namespace UI.Services
         #region Attributes
 
         private const string Url = "user";
-        private const string AuthenticateUrl = "user/authenticate";
+        private const string LoginUrl = "user/login";
+        private const string RegisterUrl = "user/register";
         private readonly HttpClient _http;
         public User CurrentUser;
         public UserService(HttpClient http) { _http = http; }
@@ -39,12 +40,12 @@ namespace UI.Services
             return null;
         }
 
-        #region Authentification
+        #region Authentication
 
-        public async Task<User> Authenticate(AuthenticateModel user)
+        public async Task<User> Login(AuthenticateModel user)
         {
             SetAuthorizationHeader(user);
-            var response = await _http.PostAsync(AuthenticateUrl, JsonContent.Create(user));
+            var response = await _http.GetAsync(LoginUrl);
             if (response.IsSuccessStatusCode) return CurrentUser = await response.Content.ReadFromJsonAsync<User>();
 
             Console.WriteLine("WRONG USERNAME OR PASSWORD");
@@ -54,7 +55,7 @@ namespace UI.Services
         public async Task<User> Register(AuthenticateModel user)
         {
             SetAuthorizationHeader(user);
-            var response = await _http.PostAsync(Url, JsonContent.Create(user));
+            var response = await _http.PostAsync(RegisterUrl, JsonContent.Create(user));
             if (response.IsSuccessStatusCode) return CurrentUser = await response.Content.ReadFromJsonAsync<User>();
 
             Console.WriteLine(await response.Content.ReadFromJsonAsync<ResponseMessage>());

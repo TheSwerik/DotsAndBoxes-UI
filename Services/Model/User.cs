@@ -16,7 +16,6 @@ namespace UI.Services.Model
         public string Username { get; set; }
         public string Password { get; set; }
 
-        public string GetSalt() { return Password.Substring(0, 27) + '='; }
 
         public override string ToString() { return $"{{ Username: {Username} }}"; }
     }
