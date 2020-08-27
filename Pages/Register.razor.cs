@@ -19,7 +19,7 @@ namespace UI.Pages
             var loggedInAs = await UserService.Register(_authenticateModel);
             if (loggedInAs == null) return;
             Console.WriteLine($"Logged in as: {loggedInAs}");
-            NavigationManager.NavigateTo("/lobbyBrowser");
+            NavigationManager.NavigateTo("/lobbyBrowser", true);
         }
     }
 }

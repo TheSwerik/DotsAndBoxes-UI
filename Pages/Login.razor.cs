@@ -18,7 +18,7 @@ namespace UI.Pages
         private async void OpenServerBrowser()
         {
             Console.WriteLine($"Logged in as: {await UserService.Login(_authenticateModel)}");
-            NavigationManager.NavigateTo("/lobbyBrowser");
+            NavigationManager.NavigateTo("/lobbyBrowser", true);
         }
     }
 }
