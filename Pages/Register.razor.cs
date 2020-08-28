@@ -11,12 +11,12 @@ namespace UI.Pages
     public partial class Register
     {
         private AuthenticateModel _authenticateModel = new AuthenticateModel();
-        [Inject] private UserService UserService { get; set; }
+        [Inject] private AuthenticationService AuthenticationService { get; set; }
         [Inject] private NavigationManager NavigationManager { get; set; }
 
         private async void OpenServerBrowser()
         {
-            var loggedInAs = await UserService.Register(_authenticateModel);
+            var loggedInAs = await AuthenticationService.Register(_authenticateModel);
             if (loggedInAs == null) return;
             Console.WriteLine($"Logged in as: {loggedInAs}");
             NavigationManager.NavigateTo("/lobbyBrowser", true);

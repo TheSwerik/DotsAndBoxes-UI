@@ -14,7 +14,7 @@ namespace UI.Pages
     public partial class Login
     {
         private AuthenticateModel _authenticateModel = new AuthenticateModel();
-        [Inject] private UserService UserService { get; set; }
+        [Inject] private AuthenticationService AuthenticationService { get; set; }
         [Inject] private NavigationManager NavigationManager { get; set; }
         [Inject] private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
 
@@ -31,7 +31,7 @@ namespace UI.Pages
 
         private async void OpenServerBrowser()
         {
-            Console.WriteLine($"Logged in as: {await UserService.Login(_authenticateModel)}");
+            Console.WriteLine($"Logged in as: {await AuthenticationService.Login(_authenticateModel)}");
             // NavigationManager.NavigateTo("/lobbyBrowser", true);
             NavigationManager.NavigateTo("/lobbyBrowser");
         }

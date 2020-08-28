@@ -9,16 +9,10 @@ namespace UI.Services
 {
     public class UserService
     {
-        #region Attributes
-
         private const string Url = "user";
         private readonly HttpClient _http;
 
         public UserService(HttpClient http) { _http = http; }
-
-        #endregion
-
-        #region Methods
 
         public async Task<IEnumerable<User>> GetAllUsers()
         {
@@ -35,7 +29,5 @@ namespace UI.Services
             Console.WriteLine($"USER WITH USERNAME {username} NOT FOUND!");
             return null;
         }
-
-        #endregion
     }
 }

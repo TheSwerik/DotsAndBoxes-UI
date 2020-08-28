@@ -22,10 +22,9 @@ namespace UI
             builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddAuthorizationCore();
             builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
-            builder.Services.AddScoped<AuthenticationStateProvider, TestAuthStateProvider>();
 
             builder.Services.AddScoped<UserService>();
-            builder.Services.AddScoped<CookieService>();
+            builder.Services.AddScoped<AuthenticationService>();
 
             await builder.Build().RunAsync();
         }

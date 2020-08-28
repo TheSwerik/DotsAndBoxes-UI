@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.Collections.Generic;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -25,23 +26,22 @@ namespace UI.Services
         {
             var token = await _localStorage.GetItemAsync<string>("authToken");
             if (string.IsNullOrWhiteSpace(token)) return _anonymous;
+
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
-            return new AuthenticationState(
-                new ClaimsPrincipal(new ClaimsIdentity(JwtParser.ParseClaimsFromJwt(token), "jwtAuthType")));
+            return new AuthenticationState(CreateClaimsPrinciple(JwtParser.ParseClaimsFromJwt(token)));
         }
 
         public void NotifyUserAuthentication(string username)
         {
-            var authenticatedUser =
-                new ClaimsPrincipal(new ClaimsIdentity(new[] {new Claim(ClaimTypes.Name, username)}, "jwtAuthType"));
-            var authState = Task.FromResult(new AuthenticationState(authenticatedUser));
-            NotifyAuthenticationStateChanged(authState);
+            var authenticatedUser = CreateClaimsPrinciple(new[] {new Claim(ClaimTypes.Name, username)});
+            NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(authenticatedUser)));
         }
 
-        public void NotifyUserLogout()
+        public void NotifyUserLogout() { NotifyAuthenticationStateChanged(Task.FromResult(_anonymous)); }
+
+        private ClaimsPrincipal CreateClaimsPrinciple(IEnumerable<Claim> claims)
         {
-            var authState = Task.FromResult(_anonymous);
-            NotifyAuthenticationStateChanged(authState);
+            return new ClaimsPrincipal(new ClaimsIdentity(claims, "jwtAuthType"));
         }
     }
 }

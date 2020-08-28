@@ -3,7 +3,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Blazored.LocalStorage;
 using UI.Services.Model;
@@ -34,8 +33,8 @@ namespace UI.Services
         public async Task<User> Register(AuthenticateModel user)
         {
             SetAuthorizationHeader(user);
-            var response = await _http.PostAsync(RegisterUrl, JsonContent.Create(user));
-            if (response.IsSuccessStatusCode) return CurrentUser = await response.Content.ReadFromJsonAsync<User>();
+            var response = await _http.PostAsync(Url, JsonContent.Create(user));
+            if (response.IsSuccessStatusCode) return await response.Content.ReadFromJsonAsync<User>();
 
             Console.WriteLine(await response.Content.ReadFromJsonAsync<ResponseMessage>());
             return null;
@@ -52,7 +51,7 @@ namespace UI.Services
         public async Task<User> Login(AuthenticateModel model)
         {
             SetAuthorizationHeader(model);
-            var response = await _http.GetAsync(LoginUrl);
+            var response = await _http.GetAsync(Url);
             if (!response.IsSuccessStatusCode)
             {
                 Console.WriteLine("WRONG USERNAME OR PASSWORD");
@@ -60,28 +59,11 @@ namespace UI.Services
             }
 
             var user = await response.Content.ReadFromJsonAsync<User>();
-            await _localStorage.SetItemAsync("authToken", user.Token);
+            await _localStorage.SetItemAsync("authToken", user.AuthenticateResponseModel.Token);
             _authStateProvider.NotifyUserAuthentication(user.Username);
-            _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", user.Token);
-            return new AuthResponseDto {IsAuthSuccessful = true};
-        }
-
-        public async Task<AuthResponseDto> Login(AuthenticateModel model)
-        {
-            var userForAuthentication = new AuthResponseDto {Username = model.Username};
-            var content = JsonSerializer.Serialize(userForAuthentication);
-            var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
-            var authResult = await _http.PostAsync(LoginUrl, bodyContent);
-            var authContent = await authResult.Content.ReadAsStringAsync();
-            var result =
-                JsonSerializer.Deserialize<AuthResponseDto>(authContent,
-                                                            new JsonSerializerOptions
-                                                            {PropertyNameCaseInsensitive = true});
-            if (!authResult.IsSuccessStatusCode) return result;
-            await _localStorage.SetItemAsync("authToken", result.Token);
-            _authStateProvider.NotifyUserAuthentication(userForAuthentication.Username);
-            _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", result.Token);
-            return new AuthResponseDto {IsAuthSuccessful = true};
+            _http.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("bearer", user.AuthenticateResponseModel.Token);
+            return user;
         }
 
         public async Task Logout()

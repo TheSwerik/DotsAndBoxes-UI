@@ -2,6 +2,7 @@
 // ReSharper disable ConvertToConstant.Local
 // ReSharper disable UnusedAutoPropertyAccessor.Local
 
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using UI.Services;
 
@@ -9,13 +10,12 @@ namespace UI.Pages
 {
     public partial class Logout
     {
-        [Inject] private UserService UserService { get; set; }
+        [Inject] private AuthenticationService AuthenticationService { get; set; }
         [Inject] private NavigationManager NavigationManager { get; set; }
 
-        protected override void OnInitialized()
+        protected override async Task OnInitializedAsync()
         {
-            //TODO delete cookie
-            UserService.CurrentUser = null;
+            await AuthenticationService.Logout();
             NavigationManager.NavigateTo("/login");
         }
     }
