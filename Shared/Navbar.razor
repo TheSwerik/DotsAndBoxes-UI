@@ -5,40 +5,36 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item @(IsHighscore() ? "active" : "")">
-                <a class="nav-link" href="highscore">Highscore</a>
-            </li>
-            <li class="nav-item @(IsLobby() ? "active" : "")">
-                @if (UserService.CurrentUser != null)
-                {
-                    <a class="nav-link" href="lobbybrowser">Lobbybrowser</a>
-                }
-            </li>
-            <li class="nav-item @(false ? "active" : "")">
-                @if (UserService.CurrentUser != null)
-                {
-                    <a class="nav-link" href="user/@UserService.CurrentUser.Username">@UserService.CurrentUser.Username</a>
-                }
-            </li>
-            @if (UserService.CurrentUser != null)
-            {
-                <a class="nav-link" href="logout">Logout</a>
-            }
-            else
-            {
-                @if (IsLogin())
-                {
-                    <li class="nav-item">
-                        <a class="nav-link" @onclick="() => NavigateTo(RegisterUri)" href="register">Register</a>
+            <AuthorizeView>
+                <Authorized>
+                    <li class="nav-item @(IsHighscore() ? "active" : "")">
+                        <a class="nav-link" href="highscore">Highscore</a>
                     </li>
-                }
-                else
-                {
-                    <li class="nav-item">
-                        <a class="nav-link" @onclick="() => NavigateTo(LoginUri)" href="login">Login</a>
+                    <li class="nav-item @(IsLobby() ? "active" : "")">
+                        <a class="nav-link" href="lobbybrowser">Lobbybrowser</a>
+
                     </li>
-                }
-            }
+                    <li class="nav-item @(false ? "active" : "")">
+                        <a class="nav-link" href="user/@context.User.FindFirst(ClaimTypes.Name).Value">@context.User.FindFirst(ClaimTypes.Name).Value</a>
+                    </li>
+                    <a class="nav-link" href="logout">Logout</a>
+                </Authorized>
+                <NotAuthorized>
+
+                    @if (IsLogin())
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" @onclick="() => NavigateTo(RegisterUri)" href="register">Register</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" @onclick="() => NavigateTo(LoginUri)" href="login">Login</a>
+                        </li>
+                    }
+                </NotAuthorized>
+            </AuthorizeView>
         </ul>
     </div>
 </nav>

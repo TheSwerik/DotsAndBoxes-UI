@@ -45,6 +45,9 @@ namespace UI.Services
         public async Task<User> Login(AuthenticateModel user)
         {
             SetAuthorizationHeader(user);
+            var request = new HttpRequestMessage();
+            Console.WriteLine(string.Join("\n", request.Properties.Keys));
+            // await _http.SendAsync(request);
             var response = await _http.GetAsync(LoginUrl);
             if (response.IsSuccessStatusCode) return CurrentUser = await response.Content.ReadFromJsonAsync<User>();
 

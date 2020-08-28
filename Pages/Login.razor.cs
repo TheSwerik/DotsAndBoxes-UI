@@ -3,6 +3,7 @@
 // ReSharper disable UnusedAutoPropertyAccessor.Local
 
 using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using UI.Services;
@@ -22,11 +23,15 @@ namespace UI.Pages
             if (NavigationManager.Uri == NavigationManager.BaseUri) NavigationManager.NavigateTo("/login");
         }
 
+        protected override async Task OnInitializedAsync()
+        {
+            var state = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            Console.WriteLine($"Identity: {state.User.Identity.Name}");
+        }
+
         private async void OpenServerBrowser()
         {
             Console.WriteLine($"Logged in as: {await UserService.Login(_authenticateModel)}");
-            var state = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            // Console.WriteLine($"Context: {state.User}");
             // NavigationManager.NavigateTo("/lobbyBrowser", true);
             NavigationManager.NavigateTo("/lobbyBrowser");
         }
