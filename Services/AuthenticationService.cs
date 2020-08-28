@@ -46,7 +46,6 @@ namespace UI.Services
             var encoded = Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1")
                                                          .GetBytes(user.Username + ":" + user.Password));
             _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", encoded);
-            //TODO save cookie
         }
 
         public async Task<User> Login(AuthenticateModel model)
@@ -59,9 +58,7 @@ namespace UI.Services
                 return null;
             }
 
-            Console.WriteLine(await response.Content.ReadAsStringAsync());
             var user = await response.Content.ReadFromJsonAsync<User>();
-            Console.WriteLine(user);
             await _localStorage.SetItemAsync("authToken", user.AuthenticateResponse.Token);
             _authStateProvider.NotifyUserAuthentication(user.Username);
             _http.DefaultRequestHeaders.Authorization =

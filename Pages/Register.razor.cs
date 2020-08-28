@@ -2,7 +2,9 @@
 // ReSharper disable UnusedAutoPropertyAccessor.Local
 
 using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using UI.Services;
 using UI.Services.Model;
 
@@ -10,16 +12,24 @@ namespace UI.Pages
 {
     public partial class Register
     {
+        private const string LobbyBrowserUrl = "/lobbyBrowser";
         private AuthenticateModel _authenticateModel = new AuthenticateModel();
         [Inject] private AuthenticationService AuthenticationService { get; set; }
+        [Inject] private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
         [Inject] private NavigationManager NavigationManager { get; set; }
+
+        protected override async Task OnInitializedAsync()
+        {
+            var state = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            if (state.User.Identity.IsAuthenticated) NavigationManager.NavigateTo(LobbyBrowserUrl);
+        }
 
         private async void OpenServerBrowser()
         {
-            var loggedInAs = await AuthenticationService.Register(_authenticateModel);
-            if (loggedInAs == null) return;
-            Console.WriteLine($"Logged in as: {loggedInAs}");
-            NavigationManager.NavigateTo("/lobbyBrowser", true);
+            var user = await AuthenticationService.Register(_authenticateModel);
+            if (user == null) return;
+            Console.WriteLine($"Logged in as: {user.Username}");
+            NavigationManager.NavigateTo(LobbyBrowserUrl);
         }
     }
 }

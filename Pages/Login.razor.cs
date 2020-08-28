@@ -13,10 +13,11 @@ namespace UI.Pages
 {
     public partial class Login
     {
+        private const string LobbyBrowserUrl = "/lobbyBrowser";
         private AuthenticateModel _authenticateModel = new AuthenticateModel();
         [Inject] private AuthenticationService AuthenticationService { get; set; }
-        [Inject] private NavigationManager NavigationManager { get; set; }
         [Inject] private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+        [Inject] private NavigationManager NavigationManager { get; set; }
 
         protected override void OnInitialized()
         {
@@ -26,14 +27,15 @@ namespace UI.Pages
         protected override async Task OnInitializedAsync()
         {
             var state = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            Console.WriteLine($"Identity: {state.User.Identity.Name}");
+            if (state.User.Identity.IsAuthenticated) NavigationManager.NavigateTo(LobbyBrowserUrl);
         }
 
         private async void OpenServerBrowser()
         {
-            Console.WriteLine($"Logged in as: {await AuthenticationService.Login(_authenticateModel)}");
-            // NavigationManager.NavigateTo("/lobbyBrowser", true);
-            NavigationManager.NavigateTo("/lobbyBrowser");
+            var user = await AuthenticationService.Login(_authenticateModel);
+            if (user == null) return;
+            Console.WriteLine($"Logged in as: {user.Username}");
+            NavigationManager.NavigateTo(LobbyBrowserUrl);
         }
     }
 }
