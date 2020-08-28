@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.JSInterop;
 
 namespace UI.Services
@@ -12,6 +13,20 @@ namespace UI.Services
         public void CreateCookie(string name, string value, int days)
         {
             JsRuntime.InvokeVoidAsync("cookies.CreateCookie", name, value, days);
+        }
+
+        public async Task<string> GetCookieValue(string name)
+        {
+            var cookie = await ReadCookie(name);
+            if (cookie == null) return null;
+            return cookie.Substring(cookie.IndexOf('=') + 1);
+        }
+
+        public async Task<T> GetCookieValue<T>(string name)
+        {
+            var cookieValue = await GetCookieValue(name);
+            if (cookieValue == null) return default;
+            return (T) Convert.ChangeType(cookieValue, typeof(T));
         }
 
         public async Task<string> ReadCookie(string name)
