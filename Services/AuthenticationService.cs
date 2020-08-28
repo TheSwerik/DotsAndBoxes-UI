@@ -47,7 +47,7 @@ namespace UI.Services
             var response = await _http.GetAsync(Url);
             if (response.IsSuccessStatusCode) return await SetToken(await response.Content.ReadFromJsonAsync<User>());
 
-            Console.WriteLine("WRONG USERNAME OR PASSWORD");
+            Console.WriteLine(await response.Content.ReadFromJsonAsync<ResponseMessage>());
             return null;
         }
 
