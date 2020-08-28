@@ -1,13 +1,11 @@
 ﻿@page "/lobbyBrowser"
-@inject UserService UserService
 
 <h1>Server</h1>
 
 <ul>
-    @for (var x = 1; x < 6; x++)
+    @foreach (var user in _users)
     {
-        <li>
-            <a href="/lobby/@x">Server @x</a>
-        </li>
+        <a href="/@user.Username">@user.Username</a>
+        <break/>
     }
 </ul>
