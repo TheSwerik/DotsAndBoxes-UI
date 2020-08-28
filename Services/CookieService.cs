@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 namespace UI.Services
@@ -7,7 +6,8 @@ namespace UI.Services
     public class CookieService
     {
         private const string CookieString = "";
-        [Inject] private JSRuntime JsRuntime { get; set; }
+        public CookieService(IJSRuntime jsRuntime) { JsRuntime = jsRuntime; }
+        private IJSRuntime JsRuntime { get; }
 
         public void CreateCookie(string name, string value, int days)
         {

@@ -10,11 +10,10 @@
         }
         document.cookie = name + "=" + value + expires + "; path=/";
     },
-    DeleteCookie: function (name) {
-        document.cookie = name + "= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
-
-    },
     ReadCookie: function () {
         return document.cookie;
+    },
+    DeleteCookie: function (name) {
+        document.cookie = name + "= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
     },
 }
