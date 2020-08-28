@@ -59,11 +59,13 @@ namespace UI.Services
                 return null;
             }
 
+            Console.WriteLine(await response.Content.ReadAsStringAsync());
             var user = await response.Content.ReadFromJsonAsync<User>();
-            await _localStorage.SetItemAsync("authToken", user.AuthenticateResponseModel.Token);
+            Console.WriteLine(user);
+            await _localStorage.SetItemAsync("authToken", user.AuthenticateResponse.Token);
             _authStateProvider.NotifyUserAuthentication(user.Username);
             _http.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("bearer", user.AuthenticateResponseModel.Token);
+                new AuthenticationHeaderValue("bearer", user.AuthenticateResponse.Token);
             return user;
         }
 
