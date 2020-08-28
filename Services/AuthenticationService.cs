@@ -31,14 +31,31 @@ namespace UI.Services
 
         #region Methods
 
-        public async Task<User> Register(AuthenticateModel user)
+        public async Task<User> Register(AuthenticateModel model)
         {
-            SetAuthorizationHeader(user);
-            var response = await _http.PostAsync(Url, JsonContent.Create(user));
-            if (response.IsSuccessStatusCode) return await response.Content.ReadFromJsonAsync<User>();
+            SetAuthorizationHeader(model);
+            var response = await _http.PostAsync(Url, JsonContent.Create(model));
+            if (response.IsSuccessStatusCode) return await SetToken(await response.Content.ReadFromJsonAsync<User>());
 
             Console.WriteLine(await response.Content.ReadFromJsonAsync<ResponseMessage>());
             return null;
+        }
+
+        public async Task<User> Login(AuthenticateModel model)
+        {
+            SetAuthorizationHeader(model);
+            var response = await _http.GetAsync(Url);
+            if (response.IsSuccessStatusCode) return await SetToken(await response.Content.ReadFromJsonAsync<User>());
+
+            Console.WriteLine("WRONG USERNAME OR PASSWORD");
+            return null;
+        }
+
+        public async Task Logout()
+        {
+            await _localStorage.RemoveItemAsync("authToken");
+            _authStateProvider.NotifyUserLogout();
+            _http.DefaultRequestHeaders.Authorization = null;
         }
 
         private void SetAuthorizationHeader(AuthenticateModel user)
@@ -48,29 +65,13 @@ namespace UI.Services
             _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", encoded);
         }
 
-        public async Task<User> Login(AuthenticateModel model)
+        private async Task<User> SetToken(User user)
         {
-            SetAuthorizationHeader(model);
-            var response = await _http.GetAsync(Url);
-            if (!response.IsSuccessStatusCode)
-            {
-                Console.WriteLine("WRONG USERNAME OR PASSWORD");
-                return null;
-            }
-
-            var user = await response.Content.ReadFromJsonAsync<User>();
             await _localStorage.SetItemAsync("authToken", user.AuthenticateResponse.Token);
             _authStateProvider.NotifyUserAuthentication(user.Username);
             _http.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("bearer", user.AuthenticateResponse.Token);
             return user;
-        }
-
-        public async Task Logout()
-        {
-            await _localStorage.RemoveItemAsync("authToken");
-            _authStateProvider.NotifyUserLogout();
-            _http.DefaultRequestHeaders.Authorization = null;
         }
 
         #endregion
