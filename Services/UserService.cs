@@ -16,9 +16,11 @@ namespace UI.Services
 
         public async Task<IEnumerable<User>> GetAllUsers()
         {
-            return await (await _http.GetAsync(Url))
-                         .Content
-                         .ReadFromJsonAsync<IEnumerable<User>>();
+            var response = await _http.GetAsync(Url);
+            if (response.IsSuccessStatusCode) return await response.Content.ReadFromJsonAsync<IEnumerable<User>>();
+
+            Console.WriteLine("Token Expired.");
+            return null;
         }
 
         public async Task<User> GetUser(string username)
