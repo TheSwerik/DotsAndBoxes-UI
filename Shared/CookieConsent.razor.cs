@@ -15,6 +15,10 @@ namespace UI.Shared
             _hasGivenConsent = await CookieService.GetCookieValue<bool>(Consent);
         }
 
-        private void AcceptMessage() { CookieService.CreateCookie(Consent, true.ToString(), 365); }
+        private void AcceptMessage()
+        {
+            CookieService.CreateCookie(Consent, true.ToString(), 365);
+            _hasGivenConsent = true;
+        }
     }
 }

@@ -25,7 +25,7 @@ namespace UI.Services
         public async Task<T> GetCookieValue<T>(string name)
         {
             var cookieValue = await GetCookieValue(name);
-            if (cookieValue == null) return default;
+            if (string.IsNullOrWhiteSpace(cookieValue)) return default;
             return (T) Convert.ChangeType(cookieValue, typeof(T));
         }
 
