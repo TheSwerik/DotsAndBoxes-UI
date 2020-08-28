@@ -17,10 +17,8 @@ namespace UI
             builder.RootComponents.Add<App>("app");
 
             builder.Services.AddScoped<UserService>();
-            builder.Services.AddScoped(
-                sp => new HttpClient {BaseAddress = new Uri("https://localhost:5003/api/")});
-            // I wrote the API URL here instead of "BaseAddress" because then every Http-Call goes to the API
-            // sp => new HttpClient {BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)});
+            builder.Services.AddScoped<CookieService>();
+            builder.Services.AddScoped(sp => new HttpClient {BaseAddress = new Uri("https://localhost:5003/api/")});
 
             await builder.Build().RunAsync();
         }
