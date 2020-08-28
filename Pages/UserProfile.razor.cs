@@ -11,10 +11,6 @@ namespace UI.Pages
         [Parameter] public string Username { get; set; }
         [Inject] private UserService UserService { get; set; }
 
-        protected override async Task OnInitializedAsync()
-        {
-            await base.OnInitializedAsync();
-            _user = await UserService.GetUser(Username);
-        }
+        protected override async Task OnInitializedAsync() { _user = await UserService.GetUser(Username); }
     }
 }
