@@ -5,6 +5,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components.Authorization;
 using UI.Services.Model;
 
 namespace UI.Services
@@ -18,11 +19,11 @@ namespace UI.Services
         private readonly AuthStateProvider _authStateProvider;
         private readonly ILocalStorageService _localStorage;
 
-        public AuthenticationService(HttpClient http, AuthStateProvider authStateProvider,
+        public AuthenticationService(HttpClient http, AuthenticationStateProvider authStateProvider,
                                      ILocalStorageService localStorage)
         {
             _http = http;
-            _authStateProvider = authStateProvider;
+            _authStateProvider = (AuthStateProvider) authStateProvider;
             _localStorage = localStorage;
         }
 
