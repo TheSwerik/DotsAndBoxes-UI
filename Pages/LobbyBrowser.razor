@@ -3,9 +3,9 @@
 <h1>Lobby</h1>
 
 <ul>
-    @foreach (var user in _users)
+    @for (var i = 1; i <= 50; i++)
     {
-        <a href="/user/@user.Username">@user.Username</a>
+        <a href="/lobby/@i">Lobby #@i</a>
         <br/>
     }
 </ul>
