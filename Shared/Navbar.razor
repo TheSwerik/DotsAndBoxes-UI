@@ -11,7 +11,7 @@
                         <a class="nav-link" href="highscore">Highscore</a>
                     </li>
                     <li class="nav-item @(IsLobby() ? "active" : "")">
-                        <a class="nav-link" href="lobbybrowser">Lobbybrowser</a>
+                        <a class="nav-link" @onclick="() => NavigateTo(LobbyBrowserUri)">Lobbybrowser</a>
 
                     </li>
                     <li class="nav-item @(false ? "active" : "")">
@@ -20,19 +20,9 @@
                     <a class="nav-link" href="logout">Logout</a>
                 </Authorized>
                 <NotAuthorized>
-
-                    @if (IsLogin())
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link" @onclick="() => NavigateTo(RegisterUri)" href="register">Register</a>
-                        </li>
-                    }
-                    else
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link" @onclick="() => NavigateTo(LoginUri)" href="login">Login</a>
-                        </li>
-                    }
+                    <li class="nav-item">
+                        <a class="nav-link" href="" @onclick="() => NavigateTo(IsLogin() ? RegisterUri : LoginUri)">@(IsLogin() ? "Register" : "Login")</a>
+                    </li>
                 </NotAuthorized>
             </AuthorizeView>
         </ul>
