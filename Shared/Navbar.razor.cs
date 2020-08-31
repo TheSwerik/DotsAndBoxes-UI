@@ -24,9 +24,7 @@ namespace UI.Shared
         private void NavigateTo(string uri) { NavigationManager.NavigateTo(uri, true); }
 
         private bool IsHighscore() { return Comparer.EqualsUri(NavigationManager, "highscore"); }
-
         private bool IsLobby() { return Comparer.ContainsUri(NavigationManager, "lobby"); }
-
         private bool IsLogin() { return Comparer.EqualsUri(NavigationManager, "login", ""); }
         private bool IsRegister() { return Comparer.EqualsUri(NavigationManager, "register", ""); }
     }
