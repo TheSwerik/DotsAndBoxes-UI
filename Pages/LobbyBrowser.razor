@@ -1,18 +1,24 @@
 ﻿@page "/lobbyBrowser"
 @inject UserService UserService
+@inject NavigationManager NavigationManager
 
 <div class="w-100 text-center">
     <h1>Lobby-Browser</h1>
 </div>
 <hr>
 <div class="d-flex w-100 justify-content-center">
+    @* TODO add message for empty browser *@
     <div class="d-flex list-group mx-2 w-50">
         @for (var x = 1; x < 6; x++)
         {
+            var a = x;
             <div class="list-group-item mt-2">
-                <div class="row">
+                <div class="row align-items-center">
                     <div class="col">Lobby @x</div>
-                    <div class="col-3 border-left border-secondary">0/10 Players</div>
+                    <div class="col-1 text-right px-1">0/10</div>
+                    <div class="col-2">
+                        <button class="btn btn-success" @onclick="(args) => { JoinLobby(a); }">Join</button>
+                    </div>
                 </div>
             </div>
         }
