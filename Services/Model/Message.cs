@@ -1,4 +1,6 @@
-﻿namespace UI.Services.Model
+﻿// ReSharper disable UnusedAutoPropertyAccessor.Global
+
+namespace UI.Services.Model
 {
     public class ResponseMessage
     {

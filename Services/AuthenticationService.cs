@@ -65,10 +65,9 @@ namespace UI.Services
 
         private async Task<User> SetToken(User user)
         {
-            await _localStorage.SetItemAsync("authToken", user.AuthenticateResponse.Token);
+            await _localStorage.SetItemAsync("authToken", user.Token);
             AuthenticationStateProvider.NotifyUserAuthentication(user.Username);
-            Http.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("bearer", user.AuthenticateResponse.Token);
+            Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", user.Token);
             return user;
         }
 

@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿// ReSharper disable UnusedAutoPropertyAccessor.Global
+
+using System.ComponentModel.DataAnnotations;
 
 namespace UI.Services.Model
 {
@@ -10,11 +12,8 @@ namespace UI.Services.Model
         public User(string username) { Username = username; }
 
         [Required] public string Username { get; set; }
-        public AuthenticateResponse AuthenticateResponse { get; set; }
+        public string Token { get; set; }
 
-        public override string ToString()
-        {
-            return $"{{ Username: {Username} | AuthenticateResponse: {AuthenticateResponse} }}";
-        }
+        public override string ToString() { return $"{{ Username: {Username} }}"; }
     }
 }
