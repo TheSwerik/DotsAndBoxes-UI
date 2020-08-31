@@ -7,9 +7,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
-using UI.Util;
 
-namespace UI.Services
+namespace UI.Util
 {
     public class AuthStateProvider : AuthenticationStateProvider
     {

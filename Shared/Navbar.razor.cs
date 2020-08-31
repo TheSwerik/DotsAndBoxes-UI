@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using UI.Services;
 using UI.Util;
 
 namespace UI.Shared
@@ -10,15 +9,15 @@ namespace UI.Shared
     {
         private const string RegisterUri = "/register";
         private const string LoginUri = "/login";
+        private const string LogoutUri = "/logout";
         [Inject] private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
         [Inject] private NavigationManager NavigationManager { get; set; }
-        [Inject] private UserService UserService { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
             var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             if (!authState.User.Identity.IsAuthenticated && !IsLogin() && !IsRegister())
-                NavigationManager.NavigateTo(LoginUri);
+                NavigationManager.NavigateTo(LogoutUri);
         }
 
         private bool IsHighscore() { return Comparer.EqualsUri(NavigationManager, "highscore"); }
