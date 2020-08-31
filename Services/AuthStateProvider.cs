@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Claims;
@@ -27,8 +29,12 @@ namespace UI.Services
             var token = await _localStorage.GetItemAsync<string>("authToken");
             if (string.IsNullOrWhiteSpace(token)) return _anonymous;
 
+            var parsedToken = JwtParser.ParseClaimsFromJwt(token).ToList();
+            var date = parsedToken.FirstOrDefault(c => c.Type.Equals("exp", StringComparison.InvariantCulture));
+            if (date == null || double.Parse(date.Value) < NowUnix()) return _anonymous;
+
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
-            return new AuthenticationState(CreateClaimsPrinciple(JwtParser.ParseClaimsFromJwt(token)));
+            return new AuthenticationState(CreateClaimsPrinciple(parsedToken));
         }
 
         public void NotifyUserAuthentication(string username)
@@ -43,5 +49,7 @@ namespace UI.Services
         {
             return new ClaimsPrincipal(new ClaimsIdentity(claims, "jwtAuthType"));
         }
+
+        private static double NowUnix() { return (DateTime.UtcNow - DateTime.UnixEpoch).TotalSeconds; }
     }
 }

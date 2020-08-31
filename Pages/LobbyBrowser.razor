@@ -1,11 +1,11 @@
 ﻿@page "/lobbyBrowser"
 
-<h1>Server</h1>
+<h1>Lobby</h1>
 
 <ul>
     @foreach (var user in _users)
     {
         <a href="/@user.Username">@user.Username</a>
-        <break/>
+        <br/>
     }
 </ul>
