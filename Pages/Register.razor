@@ -21,6 +21,14 @@
                             <InputText type="password" id="password" class="form-control" @bind-Value="_authenticateModel.Password"/>
                         </td>
                     </tr>
+                    <tr>
+                        <td>
+                            Confirm Password:
+                        </td>
+                        <td>
+                            <InputText type="password" id="confirmpassword" class="form-control" @bind-Value="_authenticateModel.ConfirmPassword"/>
+                        </td>
+                    </tr>
                 </table>
                 <button type="submit" class="form-control btn-primary">Login</button>
             </EditForm>
