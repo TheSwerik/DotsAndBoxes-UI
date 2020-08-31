@@ -7,7 +7,7 @@ namespace UI.Pages
 {
     public partial class UserProfile
     {
-        private User _user;
+        private User _user = new User();
         [Parameter] public string Username { get; set; }
         [Inject] private UserService UserService { get; set; }
 
