@@ -1,34 +1,31 @@
-﻿using System;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using UI.Services;
+using Microsoft.AspNetCore.Components.Authorization;
+using UI.Util;
 
 namespace UI.Shared
 {
     public partial class Navbar
     {
-        private Guid _user = new Guid();
-        [Inject] private NavigationManager MyNavigationManager { get; set; }
-        [Inject] private UserService UserService { get; set; }
+        private const string RegisterUri = "/register";
+        private const string LoginUri = "/login";
+        private const string LogoutUri = "/logout";
+        private const string LobbyBrowserUri = "/lobbyBrowser";
+        [Inject] private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+        [Inject] private NavigationManager NavigationManager { get; set; }
 
-        protected override void OnInitialized()
+        protected override async Task OnInitializedAsync()
         {
-            base.OnInitialized();
-            Console.WriteLine(MyNavigationManager.Uri);
+            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            if (!authState.User.Identity.IsAuthenticated && !IsLogin() && !IsRegister())
+                NavigationManager.NavigateTo(LogoutUri);
         }
 
-        private bool isHighscore()
-        {
-            return MyNavigationManager.Uri.Equals("highscore", StringComparison.InvariantCultureIgnoreCase);
-        }
+        private void NavigateTo(string uri) { NavigationManager.NavigateTo(uri, true); }
 
-        private bool isLobby()
-        {
-            return MyNavigationManager.Uri.Contains("lobby", StringComparison.InvariantCultureIgnoreCase);
-        }
-
-        private bool isLogin()
-        {
-            return MyNavigationManager.Uri.Equals("login", StringComparison.InvariantCultureIgnoreCase);
-        }
+        private bool IsHighscore() { return Comparer.EqualsUri(NavigationManager, "highscore"); }
+        private bool IsLobby() { return Comparer.ContainsUri(NavigationManager, "lobby"); }
+        private bool IsLogin() { return Comparer.EqualsUri(NavigationManager, "login", ""); }
+        private bool IsRegister() { return Comparer.EqualsUri(NavigationManager, "register", ""); }
     }
 }

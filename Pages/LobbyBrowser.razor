@@ -1,14 +1,11 @@
 ﻿@page "/lobbyBrowser"
-@inject UserService UserService
 
-<h1>Server</h1>
+<h1>Lobby</h1>
 
 <ul>
-    @for (var x = 1; x < 6; x++)
+    @for (var i = 1; i <= 50; i++)
     {
-        <li>
-            <a href="/lobby/@x">Server @x</a>
-        </li>
+        <a href="/lobby/@i">Lobby #@i</a>
+        <br/>
     }
 </ul>
-<button class="btn btn-primary w-100 my-auto" @onclick="Refresh">Play</button>

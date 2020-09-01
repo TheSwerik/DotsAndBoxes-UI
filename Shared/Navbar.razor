@@ -5,24 +5,26 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item @(isHighscore() ? "active" : "")">
-                <a class="nav-link" href="highscore">Highscore</a>
-            </li>
-            <li class="nav-item @(isLobby() ? "active" : "")">
-                @if (UserService.CurrentUser.Id != Guid.Empty)
-                {
-                    <a class="nav-link" href="lobbybrowser">Lobbybrowser</a>
-                }
-            </li>
-            <li class="nav-item @(false ? "active" : "")">
-                @if (UserService.CurrentUser.Id != Guid.Empty)
-                {
-                    <a class="nav-link" href="user/@UserService.CurrentUser.Id">@UserService.CurrentUser.Username</a>
-                }
-            </li>
-            <li class="nav-item @(isLogin() ? "active" : "")">
-                <a class="nav-link" href="/login">Login</a>
-            </li>
+            <AuthorizeView>
+                <Authorized>
+                    <li class="nav-item @(IsHighscore() ? "active" : "")">
+                        <a class="nav-link" href="highscore">Highscore</a>
+                    </li>
+                    <li class="nav-item @(IsLobby() ? "active" : "")">
+                        <a class="nav-link" @onclick="() => NavigateTo(LobbyBrowserUri)">Lobbybrowser</a>
+
+                    </li>
+                    <li class="nav-item @(false ? "active" : "")">
+                        <a class="nav-link" href="user/@context.User.FindFirst(ClaimTypes.Name).Value">@context.User.FindFirst(ClaimTypes.Name).Value</a>
+                    </li>
+                    <a class="nav-link" href="logout">Logout</a>
+                </Authorized>
+                <NotAuthorized>
+                    <li class="nav-item">
+                        <a class="nav-link" href="" @onclick="() => NavigateTo(IsLogin() ? RegisterUri : LoginUri)">@(IsLogin() ? "Register" : "Login")</a>
+                    </li>
+                </NotAuthorized>
+            </AuthorizeView>
         </ul>
     </div>
 </nav>

@@ -5,15 +5,10 @@ using System.ComponentModel.DataAnnotations;
 namespace UI.Services.Model
 {
     // ReSharper disable once InconsistentNaming
-    public class User
+    public class AuthenticateModel
     {
-        public User() { }
-
-        public User(string username) { Username = username; }
-
         [Required] public string Username { get; set; }
-        public string Token { get; set; }
-
-        public override string ToString() { return $"{{ Username: {Username} }}"; }
+        [Required] public string Password { get; set; }
+        public override string ToString() { return $"{{ Username: {Username}  | Password: {Password} }}"; }
     }
 }
