@@ -1,0 +1,24 @@
+﻿<div class="simple-form">
+
+    <div class="form-group">
+        <lable for="lobby-name">Lobby Name:</lable>
+        <input class="form-control" @bind="LobbyDto.name" type="text" id="lobby-name">
+    </div>
+
+    <div class="form-group">
+        <lable for="max-players">Maximum Players:</lable>
+        <select class="form-control" @bind="LobbyDto.maxPlayers" type="number">
+            @for (var x = 2; x < 7; x++)
+            {
+                <option value="@x">@x</option>
+            }
+        </select>
+    </div>
+
+    <button class="btn btn-primary" @onclick="CreateLobby">
+        Create Lobby
+    </button>
+    <button class="btn btn-secondary" @onclick="Cancel">
+        Cancel
+    </button>
+</div> 

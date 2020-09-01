@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using UI.Services;
 using UI.Util;
+using Blazored.Modal;
 
 namespace UI
 {
@@ -23,6 +24,7 @@ namespace UI
             builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddAuthorizationCore();
             builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
+            builder.Services.AddBlazoredModal();
 
             builder.Services.AddScoped<UserService>();
             builder.Services.AddScoped<AuthenticationService>();

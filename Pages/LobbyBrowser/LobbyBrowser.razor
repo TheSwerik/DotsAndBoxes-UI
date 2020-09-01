@@ -1,8 +1,10 @@
-﻿@page "/lobby/{lobbyID:int}"
+﻿@page "/lobbyBrowser"
+@inject UserService UserService
 @inject NavigationManager NavigationManager
+@inject IModalService Modal
 
 <div class="w-100 text-center">
-    <h1>Lobby 0/10</h1>
+    <h1>Lobby-Browser</h1>
 </div>
 <hr>
 <div class="d-flex w-100 justify-content-center">
@@ -13,10 +15,10 @@
             var a = x;
             <div class="list-group-item mt-2">
                 <div class="row align-items-center">
-                    @* TODO color username in his color *@
-                    <div class="col">User @x</div>
+                    <div class="col">Lobby @x</div>
+                    <div class="col-1 text-right px-1">0/10</div>
                     <div class="col-2">
-                        <button class="btn btn-danger" @onclick="(args) => { KickPlayer(a); }">Kick</button>
+                        <button class="btn btn-success" @onclick="(args) => { JoinLobby(a); }">Join</button>
                     </div>
                 </div>
             </div>
@@ -24,6 +26,6 @@
     </div>
 </div>
 <div class="d-flex w-100 justify-content-center mt-4">
-    <button class="btn w-25 btn-primary">Start Game</button>
+    <button class="btn w-25 btn-primary" @onclick="CreateLobby">Create Lobby</button>
 </div>
 @* TODO add pagination *@ 
