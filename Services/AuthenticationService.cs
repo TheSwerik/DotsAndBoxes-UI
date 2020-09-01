@@ -35,7 +35,7 @@ namespace UI.Services
             var response = await Http.PostAsync(Url, JsonContent.Create(model));
             if (response.IsSuccessStatusCode) return await SetToken(await response.Content.ReadFromJsonAsync<User>());
 
-            Console.WriteLine(await response.Content.ReadFromJsonAsync<ResponseMessage>());
+            Console.WriteLine(await response.Content.ReadAsStringAsync());
             return null;
         }
 
@@ -45,7 +45,7 @@ namespace UI.Services
             var response = await Http.GetAsync(Url);
             if (response.IsSuccessStatusCode) return await SetToken(await response.Content.ReadFromJsonAsync<User>());
 
-            Console.WriteLine(await response.Content.ReadFromJsonAsync<ResponseMessage>());
+            Console.WriteLine(await response.Content.ReadAsStringAsync());
             return null;
         }
 
