@@ -28,6 +28,7 @@ namespace UI
 
             builder.Services.AddScoped<UserService>();
             builder.Services.AddScoped<AuthenticationService>();
+            builder.Services.AddScoped<LobbyService>();
 
             await builder.Build().RunAsync();
         }
