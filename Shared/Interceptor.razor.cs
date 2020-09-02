@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using Blazored.Toast.Services;
 using Microsoft.AspNetCore.Components;
 using Toolbelt.Blazor;
@@ -17,7 +16,6 @@ namespace UI.Shared
 
         private async void Interceptor_AfterSend(object sender, HttpClientInterceptorEventArgs e)
         {
-            Console.WriteLine($"Intercepted {e.Response?.StatusCode}");
             // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
             switch (e.Response?.StatusCode)
             {
@@ -25,11 +23,12 @@ namespace UI.Shared
                     ToastService.ShowError("The Username already exists.", "Error");
                     break;
                 case HttpStatusCode.NotFound:
-                    ToastService.ShowError("The Username doesn't exists.", "Error");
+                    ToastService.ShowError("The Username doesn't exist.", "Error");
+                    break;
+                case HttpStatusCode.Unauthorized:
+                    ToastService.ShowError("Wrong Username or Password.", "Error");
                     break;
             }
-
-            Console.WriteLine($"Intercepted {e.Response?.StatusCode}");
         }
     }
 }
