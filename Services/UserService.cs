@@ -37,6 +37,7 @@ namespace UI.Services
             if (response.IsSuccessStatusCode) return await response.Content.ReadFromJsonAsync<User>();
             if (response.StatusCode == HttpStatusCode.NotFound)
                 Console.WriteLine($"USER WITH USERNAME {username} NOT FOUND!");
+            Console.WriteLine(await response.Content.ReadAsStringAsync());
             return null;
         }
     }
