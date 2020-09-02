@@ -21,7 +21,7 @@
                 </Authorized>
                 <NotAuthorized>
                     <li class="nav-item">
-                        <a class="nav-link" href="" @onclick="() => NavigateToGuarded(IsLogin() ? RegisterUri : LoginUri)">@(IsLogin() ? "Register" : "Login")</a>
+                        <a class="nav-link" href="@(IsLogin() ? RegisterUri : LoginUri)">@(IsLogin() ? "Register" : "Login")</a>
                     </li>
                 </NotAuthorized>
             </AuthorizeView>

@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Blazored.LocalStorage;
+using Blazored.Toast;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +25,7 @@ namespace UI
             builder.Services.AddScoped(sp => new HttpClient {BaseAddress = new Uri("https://localhost:5003/api/")}
                                            .EnableIntercept(sp));
             builder.Services.AddBlazoredLocalStorage();
+            builder.Services.AddBlazoredToast();
             builder.Services.AddAuthorizationCore();
             builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
 
