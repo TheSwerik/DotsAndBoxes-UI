@@ -11,6 +11,7 @@ namespace UI.Shared
         private const string LoginUri = "/login";
         private const string LogoutUri = "/logout";
         private const string LobbyBrowserUri = "/lobbyBrowser";
+        private const string AuthGuardUri = "/auth";
         [Inject] private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
         [Inject] private NavigationManager NavigationManager { get; set; }
 
@@ -21,7 +22,7 @@ namespace UI.Shared
                 NavigationManager.NavigateTo(LogoutUri);
         }
 
-        private void NavigateTo(string uri) { NavigationManager.NavigateTo(uri, true); }
+        private void NavigateToGuarded(string uri) { NavigationManager.NavigateTo(AuthGuardUri + uri); }
 
         private bool IsHighscore() { return Comparer.EqualsUri(NavigationManager, "highscore"); }
         private bool IsLobby() { return Comparer.ContainsUri(NavigationManager, "lobby"); }
