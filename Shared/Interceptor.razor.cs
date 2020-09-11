@@ -16,17 +16,17 @@ namespace UI.Shared
 
         private async void Interceptor_AfterSend(object sender, HttpClientInterceptorEventArgs e)
         {
+            if (e.Response == null || e.Response.IsSuccessStatusCode) return;
+
+            var capturedContent = await e.GetCapturedContentAsync();
+            var responseString = await capturedContent.ReadAsStringAsync();
             // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
-            switch (e.Response?.StatusCode)
+            switch (e.Response.StatusCode)
             {
                 case HttpStatusCode.Conflict:
-                    ToastService.ShowError("The Username already exists.", "Error");
-                    break;
                 case HttpStatusCode.NotFound:
-                    ToastService.ShowError("The Username doesn't exist.", "Error");
-                    break;
                 case HttpStatusCode.Unauthorized:
-                    ToastService.ShowError("Wrong Username or Password.", "Error");
+                    ToastService.ShowError(responseString, "Error");
                     break;
             }
         }
